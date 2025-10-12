@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- For rendering markdown from Gemini -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
@@ -66,43 +65,6 @@
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         
-        /* Modal styles */
-        #gemini-modal-content > h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        #gemini-modal-content > ul {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        #gemini-modal-content li {
-            margin-bottom: 0.25rem;
-        }
-        
-        /* Loading animation */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #d1d5db;
-            border-bottom-color: #4f46e5;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
         /* Toast Notification */
         #toast {
             position: fixed;
@@ -135,13 +97,10 @@
                         Google Scholar Profile
                     </a>
                 </div>
-                <p class="text-gray-300 mt-3 max-w-2xl mx-auto md:mx-0">
-                    Innovation and ecosystem leader with 11 years of cross-sector experience bridging science, startups, and industry. I design and scale entrepreneurship programs, strategic partnerships, and funding pathways that accelerate adoption of emerging healthcare technologies including AI solutions.
+                <p id="main-summary" class="text-gray-300 mt-3 max-w-2xl mx-auto md:mx-0">
+                    Innovation and ecosystem leader with cross-sector experience bridging science, startups, and industry. I design and scale entrepreneurship programs, strategic partnerships, and funding pathways that accelerate adoption of emerging healthcare technologies including AI solutions.
                 </p>
                 <div class="mt-4 flex flex-wrap gap-4 justify-center md:justify-start">
-                    <button id="gemini-button" class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                        ✨ Generate Insights with Gemini AI
-                    </button>
                     <a href="https://www.linkedin.com/in/alcretu/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                         LinkedIn
@@ -220,19 +179,6 @@
     <!-- Toast Notification -->
     <div id="toast" class="bg-gray-800 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg">
         Email address copied to clipboard!
-    </div>
-
-    <!-- Gemini Modal -->
-    <div id="gemini-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl font-semibold text-gray-800">✨ AI-Powered Career Insights</h3>
-                <button id="close-modal-button" class="text-gray-400 hover:text-gray-600">&times;</button>
-            </div>
-            <div id="gemini-modal-body" class="p-6 overflow-y-auto">
-                <!-- Content will be injected here -->
-            </div>
-        </div>
     </div>
 
     <script>
@@ -438,113 +384,25 @@
         contactButton.addEventListener('click', function(event) {
             event.preventDefault();
             const email = 'cretu_andreea@protonmail.com';
-
+            
+            // Fallback for copying to clipboard
             const textarea = document.createElement('textarea');
             textarea.value = email;
             document.body.appendChild(textarea);
             textarea.select();
-            document.execCommand('copy');
+            try {
+                document.execCommand('copy');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
             document.body.removeChild(textarea);
 
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-            
             window.location.href = `mailto:${email}`;
         });
-
-        // --- GEMINI API INTEGRATION ---
-        const geminiButton = document.getElementById('gemini-button');
-        const modal = document.getElementById('gemini-modal');
-        const modalBody = document.getElementById('gemini-modal-body');
-        const closeModalButton = document.getElementById('close-modal-button');
-
-        geminiButton.addEventListener('click', async () => {
-            modal.style.display = 'flex';
-            modalBody.innerHTML = '<div class="flex justify-center items-center h-48"><div class="loader"></div></div>';
-            
-            try {
-                const resumeText = generateResumeText();
-                const apiKey = ""; // API key is handled by the environment for preview
-                
-                const model = 'gemini-1.5-flash';
-                const systemPrompt = `You are an expert career coach and talent acquisition specialist. Your task is to analyze the provided resume text and generate a concise, professional analysis for a potential recruiter. Structure your response in markdown format with the following three sections exactly as written:
-
-### Key Strengths
-- Bulleted list of 3-4 of the candidate's most impressive strengths, focusing on quantifiable achievements and leadership skills.
-
-### Potential Interview Talking Points
-- Bulleted list of 3-4 specific projects or experiences from the resume that would be excellent topics to discuss in an interview.
-
-### Future Growth Trajectory
-- A brief, 1-2 sentence paragraph on the candidate's potential career path and growth areas based on their experience.`;
-                
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                
-                const payload = {
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                    contents: [{ parts: [{ text: resumeText }] }],
-                };
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API call failed with status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                
-                if (text) {
-                     modalBody.innerHTML = `<div id="gemini-modal-content" class="prose max-w-none">${marked.parse(text)}</div>`;
-                } else {
-                    throw new Error("No content received from API.");
-                }
-
-            } catch (error) {
-                console.error("Error calling Gemini API:", error);
-                modalBody.innerHTML = `<div class="text-red-600 bg-red-100 p-4 rounded-lg">
-                    <p class="font-semibold">An error occurred.</p>
-                    <p>Could not generate career insights at this time. Please check the console for details.</p>
-                </div>`;
-            }
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        function generateResumeText() {
-            let text = `Name: Andreea Loredana Cretu, PhD, MBA\nTitle: Expert in translational health innovation and early-stage ventures\nSummary: Innovation and ecosystem leader with a decade of cross-sector experience...\n\n`;
-            text += "## Startup Ecosystem & Advisory Impact\n";
-            startupImpactData.forEach(item => {
-                const descText = Array.isArray(item.description) ? '\n  - ' + item.description.join('\n  - ') : item.description;
-                text += `- ${item.title}: ${descText}\n`;
-            });
-            text += "\n## Career & Education Timeline\n";
-            timelineData.forEach(item => {
-                text += `\nType: ${item.type}\nDate: ${item.date}\nTitle: ${item.title}\nOrganization: ${item.organization}\n`;
-                if(item.details && item.details.length > 0) {
-                     text += "Details:\n" + item.details.map(d => `  - ${d}`).join('\n') + "\n";
-                }
-            });
-            text += "\n## Events & Engagements\n";
-            eventLinks.forEach(item => {
-                text += `- ${item.title}: ${item.description} (Link: ${item.url})\n`;
-            });
-            return text;
-        }
 
     </script>
 </body>
