@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>welcome@A.L.Cretu</title>
+    <title>Welcome@A.L.Cretu</title>
     <link rel="icon" type="image/jpeg" href="https://media.licdn.com/dms/image/v2/D4E03AQH_A_HRfcdqSw/profile-displayphoto-crop_800_800/B4EZmflVHfKgAQ-/0/1759318987995?e=1762992000&v=beta&t=-hDI2lRYYx4ZoXZzMk72UnDIjBgsBToOX6BQMbPwQ9k">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +13,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
         
         /* Vertical Timeline Styles */
@@ -23,7 +24,7 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background-color: #e2e8f0;
+            background-color: #e2e8f0; /* cool-gray-200 */
         }
         .timeline-item:last-child::before {
             display: none;
@@ -48,7 +49,7 @@
             padding-top: 0;
         }
         .card.open .card-details {
-            max-height: 1000px; /* Arbitrary large value */
+            max-height: 1000px; /* Arbitrary large value to allow for expansion */
             padding-top: 1rem;
         }
         .card.open .chevron {
@@ -112,6 +113,61 @@
                 </div>
             </div>
         </header>
+
+        <!-- About Me Section -->
+        <section class="mb-16">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-gray-200/80 relative overflow-hidden">
+                <!-- Suggestive Drawing -->
+                <div class="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3 opacity-20 pointer-events-none">
+                    <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="brain-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#a855f7;"/>
+                                <stop offset="50%" style="stop-color:#ec4899;"/>
+                                <stop offset="100%" style="stop-color:#22d3ee;"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- More detailed Network Graph -->
+                        <path d="M 40 70 C 60 30, 100 30, 120 70" stroke="url(#brain-grad)" stroke-width="1.5" fill="none"/>
+                        <path d="M 40 70 L 70 130" stroke="url(#brain-grad)" stroke-width="1" stroke-opacity="0.6" fill="none"/>
+                        <path d="M 120 70 L 150 110" stroke="url(#brain-grad)" stroke-width="1" stroke-opacity="0.6" fill="none"/>
+                        <path d="M 70 130 L 150 110" stroke="url(#brain-grad)" stroke-width="1.5" fill="none"/>
+                        <path d="M 95 90 C 130 100, 130 140, 95 150" stroke="url(#brain-grad)" stroke-width="1.5" fill="none"/>
+                        <path d="M 95 90 L 40 70" stroke="url(#brain-grad)" stroke-width="1" stroke-opacity="0.6" fill="none"/>
+                        <path d="M 150 110 L 160 40" stroke="url(#brain-grad)" stroke-width="1" stroke-opacity="0.6" fill="none"/>
+                        <path d="M 160 40 L 120 70" stroke="url(#brain-grad)" stroke-width="1.5" fill="none"/>
+
+                        <circle cx="40" cy="70" r="6" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                        <circle cx="120" cy="70" r="8" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                        <circle cx="70" cy="130" r="5" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                        <circle cx="150" cy="110" r="7" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                        <circle cx="95" cy="90" r="9" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                        <circle cx="95" cy="150" r="4" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                        <circle cx="160" cy="40" r="6" stroke="url(#brain-grad)" stroke-width="2" fill="white"/>
+                    </svg>
+                </div>
+                <!-- Decorative Gradient Accent -->
+                <div class="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-rose-400 to-indigo-500 rounded-full opacity-10 blur-2xl"></div>
+                 <div class="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-64 h-64 bg-gradient-to-tl from-teal-400 to-sky-500 rounded-full opacity-10 blur-2xl"></div>
+        
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8 flex items-center justify-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3"/><circle cx="12" cy="10" r="3"/><circle cx="12" cy="12" r="10"/></svg>
+                        About Me
+                    </h2>
+                    <div class="text-gray-700 italic space-y-4 max-w-3xl mx-auto text-base leading-relaxed text-center">
+                        <p class="font-bold">"👋 Hello! I’m Andreea, a connector by nature, a neuroscientist by training, and an ecosystem builder by choice."</p>
+                        <p>For the past decade, my career has revolved around understanding people and systems, from decoding how the brain works during my PhD in Neuroscience, to helping global pharma clients refine their commercial strategies as a consultant, to now building the next generation of health innovators through academic entrepreneurship.</p>
+                        <p>With a PhD and an MBA, I combine scientific depth with a strategic mindset to help research teams and early founders translate great ideas into real impact. Currently, I lead initiatives at the University of Zurich that connect startups, investors, and academia to strengthen Switzerland’s life science and medtech ecosystem.</p>
+                        <p>I’m energetic, fast-paced, and rarely say no to a good idea, which might explain why I’m constantly found at startup events, panels, or mentoring sessions.</p>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-lg my-6 text-left">
+                            <p class="italic text-indigo-800">🕵️‍♀️ <span class="font-bold not-italic">Fun fact:</span> I once wanted to be a policewoman. Turns out I still love detective work, just now it’s about finding the right people, partners, and paths to make innovation happen.</p>
+                        </div>
+                        <p>I believe progress happens when diverse minds meet, and I’m here to make sure they do.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Core Competencies Section -->
         <section class="mb-16">
@@ -217,7 +273,7 @@
             { type: 'award', date: '2019', title: 'McKinsey Next Generation Women Leaders Award', organization: 'McKinsey & Company', details: ["Recognized for exceptional leadership potential in business transformation."]},
             { type: 'work', date: 'Oct 2015 - Nov 2019', title: 'Neuroscience Researcher and Lecturer', organization: 'ETH Zurich, Switzerland', details: ["Conducted research on neural computation and predictive processing.", "Taught and supervised MSc/BSc students in experimental design and data analysis."]},
             { type: 'education', date: '2015 - 2019', title: 'PhD in Cognitive Neuroscience', organization: 'ETH Zurich, Switzerland', details: ["PhD in Cognitive Neuroscience from ETH Zurich Department of Health Sciences and Technology, Switzerland.", '<a href="https://www.research-collection.ethz.ch/entities/publication/fd946033-e886-422a-a21d-7be5ee61dec4" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">View Thesis</a>']},
-            { type: 'work', date: 'Nov 2014 - Sep 2015', title: 'Research Assistant (part-time)', organization: 'Max Planck Institute for Psycholinguistics, Netherlands', details: ["Supported a project on motor cortex involvement in speech perception."]},
+            { type: 'work', date: 'Nov 2024 - Sep 2015', title: 'Research Assistant (part-time)', organization: 'Max Planck Institute for Psycholinguistics, Netherlands', details: ["Supported a project on motor cortex involvement in speech perception."]},
             { type: 'education', date: '2013 - 2015', title: 'MSc in Cognitive Neuroscience', organization: 'Radboud University Donders Institute, Netherlands', details: ["MSc in Cognitive Neuroscience from Radboud University Donders Institute, Netherlands."]},
             { type: 'education', date: '2009 - 2013', title: 'BSc in Biomedical Engineering', organization: 'University of Medicine and Pharmacy, Iasi, Romania', details: ["BSc in Biomedical Engineering from University of Medicine and Pharmacy, Iasi, Romania."]},
         ];
